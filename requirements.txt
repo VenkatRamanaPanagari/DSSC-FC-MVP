@@ -12,3 +12,6 @@ matplotlib==3.5.2
 DateTime==4.4
 yfinance==0.1.70
 scikit-learn==1.1.1
+pymongo==3.11.4
+json5==0.9.5
+jsonschema==3.2.0
