@@ -68,7 +68,7 @@ def describe(input_df):
   return describe
 
 descrb=describe(data)
-st.write(descrb)
+st.write(descrb,200, 100)
 
 
 st.subheader('A complete Profile Report of data')
