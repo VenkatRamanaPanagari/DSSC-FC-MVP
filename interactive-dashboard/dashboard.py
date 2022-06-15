@@ -42,7 +42,6 @@ data.fillna(method="ffill",inplace=True)
 # Notify the reader that the data was successfully loaded.
 data_load_state.text('Loading data...done!')
 
-
 def convert_df(df):
      # IMPORTANT: Cache the conversion to prevent computation on every rerun
      return df.to_csv().encode('utf-8')
@@ -56,16 +55,12 @@ st.download_button(
      mime='text/csv',
  )
 
-
 # create checkbox
 if st.checkbox('Show raw data'):
     st.subheader('Raw data')
     st.write(data)
 
-
-
-
-st.subheader('A complete Profile Report of data')
+st.subheader('Interactive Dashboards to the user for better interaction and understanding the data results ')
 pr=ProfileReport(data)
 st_profile_report(pr)
 
