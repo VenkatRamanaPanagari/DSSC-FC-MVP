@@ -74,7 +74,7 @@ descrb=describe(data)
 st.write(descrb)
 
 
-st.subheader('A complete Profile Report of data')
+st.subheader('Interactive Dashboards to the user for better interaction and understanding the data results ')
 pr=ProfileReport(data)
 st_profile_report(pr)
 
