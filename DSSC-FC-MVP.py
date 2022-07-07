@@ -20,6 +20,8 @@ import datetime as dt
 import yfinance as yf
 import datetime
 from data_statistics import DSSC_FC_MVP_Visualization as vz
+from prophet import Prophet
+from prophet.plot import plot_plotly, plot_components_plotly
 
 # print title of web app
 st.title("Financial Consultation Stock Market Analysis and Prediction")
@@ -171,6 +173,43 @@ plt.title('Market Cap')
 plt.legend()
 
 st.pyplot(marketcap)
+
+# Rolling mean and standar deviation
+fig_rolling_ibm = plt.figure(figsize = (15,7))
+rolling_mean_ibm = data.rolling(5)['Close'].mean()
+rolling_std_ibm = data.rolling(5)['Close'].std()
+
+rolling_mean_msft = data1.rolling(5)['Close'].mean()
+rolling_std_msft = data1.rolling(5)['Close'].std()
+plt.plot(rolling_mean_ibm, color="red", label="Rolling Mean IBM")
+plt.plot(rolling_mean_msft, color="black", label = "Rolling Mean IBM")
+plt.title('Rolling means IBM')
+plt.legend()
+st.pyplot(fig_rolling_ibm)
+
+plt.plot(rolling_mean_msft, color="red", label="Rolling Mean MSFT")
+plt.plot(rolling_std_msft, color="black", label = "Rolling Mean MSFT")
+plt.title('Rolling means MSFT')
+plt.legend()
+st.pyplot(fig_rolling_ibm)
+
+# facebook prophet
+data.reset_index(inplace=True)
+data1.reset_index(inplace=True)
+
+ibm = data[["Date","Close"]]
+msft = data1[["Date","Close"]]
+ibm = ibm.rename(columns = {"Date":"ds","Close":"y"}) 
+msft = msft.rename(columns = {"Date":"ds","Close":"y"}) 
+
+# forecase ibm
+fbp = Prophet(yearly_seasonality = True) 
+fbp.fit(ibm)
+ibm_fut = fbp.make_future_dataframe(periods=30) 
+forecast_ibm = fbp.predict(ibm_fut)
+fig = fbp.plot(forecast_ibm)
+st.pyplot(fig)
+
 # create new cloumn for data analysis.
 data['HL_PCT'] = (data['High'] - data['Low']) / data['Close'] * 100.0
 data['PCT_change'] = (data['Close'] - data['Open']) / data['Open'] * 100.0
