@@ -17,4 +17,4 @@ json5==0.9.5
 jsonschema==3.2.0
 streamlit==1.4.0
 prophet==1.1
-pystan==2.14
+pystan==3.5.0
