@@ -197,4 +197,5 @@ API
 Training
 Blog
 About
-.pyc
+*.pyc
+.idea/
