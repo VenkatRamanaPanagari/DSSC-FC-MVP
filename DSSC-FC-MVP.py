@@ -174,7 +174,8 @@ plt.legend()
 
 st.pyplot(marketcap)
 
-# Rolling mean and standar deviation
+# Rolling mean and standard deviation
+
 fig_rolling_ibm = plt.figure(figsize = (15,7))
 rolling_mean_ibm = data.rolling(5)['Close'].mean()
 rolling_std_ibm = data.rolling(5)['Close'].std()
@@ -194,22 +195,21 @@ plt.legend()
 st.pyplot(fig_rolling_ibm)
 
 # facebook prophet
-data.reset_index(inplace=True)
-data1.reset_index(inplace=True)
-
-ibm = data[["Date","Close"]]
-msft = data1[["Date","Close"]]
-ibm = ibm.rename(columns = {"Date":"ds","Close":"y"}) 
-msft = msft.rename(columns = {"Date":"ds","Close":"y"}) 
+print(data)
+data_ibm_prophet = data[['Close']]
+data_msft_prophet = data1[['Close']]
+data_ibm_prophet.reset_index(inplace=True)
+data_msft_prophet.reset_index(inplace=True)
+data_ibm_prophet = data_ibm_prophet.rename(columns = {"Date":"ds","Close":"y"})
+data_msft_prophet = data_msft_prophet.rename(columns = {"Date":"ds","Close":"y"})
 
 # forecase ibm
 fbp = Prophet(yearly_seasonality = True) 
-fbp.fit(ibm)
+fbp.fit(data_ibm_prophet)
 ibm_fut = fbp.make_future_dataframe(periods=30) 
 forecast_ibm = fbp.predict(ibm_fut)
 fig = fbp.plot(forecast_ibm)
 st.pyplot(fig)
-
 # create new cloumn for data analysis.
 data['HL_PCT'] = (data['High'] - data['Low']) / data['Close'] * 100.0
 data['PCT_change'] = (data['Close'] - data['Open']) / data['Open'] * 100.0
@@ -244,6 +244,7 @@ forecast_set = clf.predict(X_lately)
 data['Forecast'] = np.nan
 
 last_date = data.iloc[-1].name
+print(last_date)
 last_unix = last_date.timestamp()
 one_day = 86400
 next_unix = last_unix + one_day
